@@ -29,7 +29,7 @@ const analyzePH = async (file) => {
     return {
         phValue,
         date: formattedDate,  // пример: "14.11.2025, 13:06:08"
-        confidence: confidence.toString(),
+        confidence,
         originalname: file.originalname
     };
 };
