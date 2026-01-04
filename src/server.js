@@ -7,10 +7,15 @@ import errorHandler from "./middlewares/errorHandler.js";
 const startServer = () => {
     const app = express();
 
+    // const allowedOrigins = [
+    //     "http://localhost:5173",                 // локальный фронтенд
+    //     "https://project-phera-dev.vercel.app",  // Vercel продакшен
+    // ];
+
     const allowedOrigins = [
-        "http://localhost:5173",                 // локальный фронтенд
-        "https://project-phera-dev.vercel.app",  // Vercel продакшен
-    ];
+        "http://localhost:5173",
+        process.env.FRONTEND_URL  // Берем из переменной окружения
+    ].filter(Boolean);  // Убираем undefined
 
     app.use(
         cors({
