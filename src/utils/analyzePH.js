@@ -2,13 +2,6 @@ const analyzePH = async (file) => {
     if (!file) {
         throw new Error("File is required for pH analysis");
     }
-    // console.log("file:", file);
-
-    // console.log("Received file:", file.originalname);
-    // console.log("Size:", file.size, "bytes");
-    // console.log("Type:", file.mimetype);
-    // console.log("fille:", file.buffer);
-    
 
     // Генератор случайного числа с шагом
     const randomStep = (min, max, step) => {
@@ -20,15 +13,26 @@ const analyzePH = async (file) => {
     const phValue = randomStep(4.0, 7.0, 0.1);      // от 4.0 до 7.0, шаг 0.1
     const confidence = randomStep(92, 99, 1);       // от 92 до 99, шаг 1
 
-    // Форматируем дату: DD.MM.YYYY, HH:MM:SS
+    // Форматируем дату: DD.MM.YY | H:MM PM/AM
     const now = new Date();
-    const datePart = now.toLocaleDateString("en-GB").replace(/\//g, "."); // меняем слэши на точки
-    const timePart = now.toLocaleTimeString("en-GB", { hour12: false });
-    const formattedDate = `${datePart}, ${timePart}`;
+    
+    // Дата в формате DD.MM.YY
+    const day = String(now.getDate()).padStart(2, '0');
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const year = String(now.getFullYear()).slice(-2); // последние 2 цифры года
+    
+    // Время в формате 12-часовом с AM/PM
+    let hours = now.getHours();
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // час '0' должен быть '12'
+    
+    const formattedDate = `${day}.${month}.${year} | ${hours}:${minutes} ${ampm}`;
 
     return {
         phValue,
-        date: formattedDate,  // пример: "14.11.2025, 13:06:08"
+        date: formattedDate,  // пример: "04.01.25 | 8:32 PM"
         confidence,
         originalname: file.originalname
     };
