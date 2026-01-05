@@ -22,7 +22,6 @@ export const imagesController = async (req, res, next) => {
             phValue: result.phValue,
             date: result.date,
             confidence: result.confidence,
-            // image: result.imageBase64 ?? null, 
         });
 
     } catch (error) {
