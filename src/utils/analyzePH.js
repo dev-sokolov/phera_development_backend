@@ -4,9 +4,10 @@ const analyzePH = async (file) => {
     }
 
     const randomStep = (min, max, step) => {
-        const steps = Math.floor((max - min) / step) + 1;
-        const randStep = Math.floor(Math.random() * steps);
-        return +(min + randStep * step).toFixed(1);
+        const range = max - min;
+        const steps = Math.round(range / step);
+        const randomSteps = Math.floor(Math.random() * (steps + 1));
+        return +(min + randomSteps * step).toFixed(1);
     };
 
     const phValue = randomStep(4.0, 7.0, 0.1);     
