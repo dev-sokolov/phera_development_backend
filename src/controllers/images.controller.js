@@ -2,6 +2,7 @@ import analyzePH from "../utils/analyzePH.js";
 
 export const imagesController = async (req, res, next) => {
     try {
+        // Validate that the request includes a file
         if (!req.file) {
             return next({
                 status: 400,
@@ -9,8 +10,10 @@ export const imagesController = async (req, res, next) => {
             });
         }
 
+        // Destructure relevant file properties from multer
         const { buffer, mimetype, originalname, size } = req.file;
 
+        // Perform simulated pH analysis on the uploaded image
         const result = await analyzePH({
             buffer,
             mimetype,
@@ -18,6 +21,7 @@ export const imagesController = async (req, res, next) => {
             size
         });
 
+        // Respond with pH analysis result
         res.status(200).json({
             phValue: result.phValue,
             date: result.date,
@@ -25,6 +29,7 @@ export const imagesController = async (req, res, next) => {
         });
 
     } catch (error) {
+        // Pass errors to the global error handler
         next(error);
     }
 };
